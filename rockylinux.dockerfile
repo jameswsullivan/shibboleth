@@ -13,5 +13,7 @@ COPY ./rockylinux.entrypoint.sh /opt/shibboleth/entrypoint.sh
 
 RUN chmod +x /opt/shibboleth/entrypoint.sh
 
+WORKDIR /etc/shibboleth
+
 EXPOSE 80 443
 ENTRYPOINT [ "/opt/shibboleth/entrypoint.sh" ]
