@@ -46,8 +46,14 @@ docker run -dit --name shibboleth-sp -p 80:80 -p 443:443 --hostname=YOUR_SHIB_HO
 - List all loaded and enabled apache modules: `httpd -M`
 - Check whether your system is 32 bit or 64 bit (for choosing the 32/64 bit shibboleth package): `uname -m`
 - Restart the apache service: `httpd restart`
+- Log location:
+    - `shibd.log`: /var/log/shibboleth
+    - Apache `access_log` and `error_log`: /var/log/httpd
 
 ### Ubuntu
 - Use `service shibd status` and `service apache2 status` to check service status.
 - Use `service shibd restart`, `service apache2 restart` to restart services.
 - Use `apache2ctl -M` to list all modules.
+- Log location:
+    - `shibd.log`: /var/log/shibboleth
+    - Apache `access.log` and `error.log`: /var/log/apache2
