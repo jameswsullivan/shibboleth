@@ -19,7 +19,6 @@ docker build --file rockylinux.dockerfile --tag shibboleth:1.0.0 --progress plai
 Ubuntu:
 docker build --file ubuntu.dockerfile --tag shibboleth:1.0.0 --progress plain --no-cache . 2>&1 | tee shibboleth_ubuntu_build.log
 
-
 docker run -dit --name shibboleth-sp -p 80:80 -p 443:443 --hostname=YOUR_SHIB_HOSTNAME shibboleth:1.0.0
 
 [Docker Compose]
@@ -40,8 +39,23 @@ docker compose down -v
     - `http://localhost`, should show you the default apache landing page.
     - `http://localhost/Shibboleth.sso/Session`, you should see a message `A valid session was not found.`.
     - `http://localhost/Shibboleth.sso/Status`, you should see Shibboleth's default XML page.
+- **Persistent Files**
+    - A persistent volume is available at `/opt/config`, which can be used to persist changes made to virtual host configs, `shibboleth2.xml`, etc., using symbolic links.
 
 ## Troubleshooting
+
+### Generate Keys:
+```
+# Generate signing keys
+shib-keygen
+mv /etc/shibboleth/sp-cert.pem /etc/shibboleth/sp-signing-cert.pem
+mv /etc/shibboleth/sp-key.pem /etc/shibboleth/sp-signing-key.pem
+
+# Generate encrypt keys
+shib-keygen
+mv /etc/shibboleth/sp-cert.pem /etc/shibboleth/sp-encrypt-cert.pem
+mv /etc/shibboleth/sp-key.pem /etc/shibboleth/sp-encrypt-key.pem
+```
 
 ### Rocky Linux
 - In the `shibboleth2.xml.test` file, the `handlerSSL` is set to `false` so that the basic tests can be performed using HTTP. If it's left as `true`, you'll get an 404 error or the `Not Found The requested URL was not found on this server.` message.
