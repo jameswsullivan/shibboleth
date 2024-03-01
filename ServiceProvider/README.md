@@ -21,6 +21,10 @@ docker build --file ubuntu.dockerfile --tag shibboleth:1.0.0 --progress plain --
 
 
 docker run -dit --name shibboleth-sp -p 80:80 -p 443:443 --hostname=YOUR_SHIB_HOSTNAME shibboleth:1.0.0
+
+[Docker Compose]
+docker compose up -d
+docker compose down -v
 ```
 
 ## Reference Articles and Basic Test

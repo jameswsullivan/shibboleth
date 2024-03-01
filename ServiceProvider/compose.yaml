@@ -1,0 +1,38 @@
+name: shibboleth-service-provider
+
+services:
+
+  ubuntu-shib:
+    build:
+      context: .
+      dockerfile: ubuntu.dockerfile
+    image: ubuntu-shib:1.0.0
+    container_name: ubuntu-shib
+    networks:
+      - shibnet
+    volumes:
+      - ubuntu-vol:/opt/config
+    ports:
+      - 80:80
+
+  rockylinux-shib:
+    build:
+      context: .
+      dockerfile: rockylinux.dockerfile
+    image: rockylinux-shib:1.0.0
+    container_name: rockylinux-shib
+    networks:
+      - shibnet
+    volumes:
+      - rockylinux-vol:/opt/config
+    ports:
+      - 81:80
+
+networks:
+  shibnet:
+
+volumes:
+  ubuntu-vol:
+    driver: local
+  rockylinux-vol:
+    driver: local
