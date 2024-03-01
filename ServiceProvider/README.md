@@ -6,20 +6,26 @@
 [PowerShell]
 
 Rocky Linux:
-docker build --file rockylinux.dockerfile --tag shibboleth:1.0.0 --progress plain --no-cache . 2>&1 | Tee-Object shibboleth_rocky_build.log
+docker build --file rockylinux.dockerfile --tag rockylinux-shib:1.0.0 --progress plain --no-cache . 2>&1 | Tee-Object rockylinux-shib-build.log
+
+docker run -dit --name rockylinux-shib -p 80:80 -p 443:443 --hostname=rockylinux-shib rockylinux-shib:1.0.0
 
 Ubuntu:
-docker build --file ubuntu.dockerfile --tag shibboleth:1.0.0 --progress plain --no-cache . 2>&1 | Tee-Object shibboleth_ubuntu_build.log
+docker build --file ubuntu.dockerfile --tag ubuntu-shib:1.0.0 --progress plain --no-cache . 2>&1 | Tee-Object ubuntu-shib-build.log
+
+docker run -dit --name ubuntu-shib -p 80:80 -p 443:443 --hostname=ubuntu-shib ubuntu-shib:1.0.0
 
 [Linux Shell]
 
 Rocky Linux:
-docker build --file rockylinux.dockerfile --tag shibboleth:1.0.0 --progress plain --no-cache . 2>&1 | tee shibboleth_rocky_build.log
+docker build --file rockylinux.dockerfile --tag rockylinux-shib:1.0.0 --progress plain --no-cache . 2>&1 | tee shibboleth-rocky-build.log
+
+docker run -dit --name rockylinux-shib -p 80:80 -p 443:443 --hostname=rockylinux-shib rockylinux-shib:1.0.0
 
 Ubuntu:
-docker build --file ubuntu.dockerfile --tag shibboleth:1.0.0 --progress plain --no-cache . 2>&1 | tee shibboleth_ubuntu_build.log
+docker build --file ubuntu.dockerfile --tag ubuntu-shib:1.0.0 --progress plain --no-cache . 2>&1 | tee shibboleth_ubuntu_build.log
 
-docker run -dit --name shibboleth-sp -p 80:80 -p 443:443 --hostname=YOUR_SHIB_HOSTNAME shibboleth:1.0.0
+docker run -dit --name ubuntu-shib -p 80:80 -p 443:443 --hostname=ubuntu-shib ubuntu-shib:1.0.0
 
 [Docker Compose]
 docker compose up -d
