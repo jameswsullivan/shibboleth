@@ -1,0 +1,86 @@
+name: shibboleth-test-bed
+
+services:
+  shibboleth-wordpress-web:
+    build:
+      context: ./wordpress
+      dockerfile: Dockerfile
+    image: shibboleth-wordpress-web:1.0.0
+    container_name: shibboleth-wordpress-web
+    hostname: shibboleth-wordpress-web
+    networks:
+      - shibboleth
+    volumes:
+      - shibboleth-wordpress-web:/var/www/html
+    depends_on:
+      - wordpress-mysql
+
+  shibboleth-wordpress--mysql:
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    image: shibboleth-wordpress-mysql:1.0.0
+    container_name: shibboleth-wordpress-mysql
+    hostname: shibboleth-wordpress-mysql
+    networks:
+      - shibboleth
+    volumes:
+      - shibboleth-wordpress-mysql:/var/lib/mysql
+
+  shibboleth-service-provider:
+    build:
+      context: ./service-provider
+      dockerfile: Dockerfile
+    image: shibboleth-service-provider:1.0.0
+    container_name: shibboleth-service-provider
+    hostname: shibboleth-service-provider
+    networks:
+      - shibboleth
+    volumes:
+      - shibboleth-service-provider:/opt/config
+
+  shibboleth-identity-provider:
+    build:
+      context: ./identity-provider
+      dockerfile: Dockerfile
+    image: shibboleth-identity-provider:1.0.0
+    container_name: shibboleth-identity-provider
+    hostname: shibboleth-identity-provider
+    networks:
+      - shibboleth
+
+  shibboleth-ldap-server:
+    image: rroemhild/test-openldap
+    container_name: shibboleth-ldap-server
+    hostname: shibboleth-ldap-server
+    networks:
+      - shibboleth
+
+  linux-pc:
+    build:
+      context: .
+      dockerfile: linuxpc.dockerfile
+    image: linux-pc:1.0.0
+    container_name: linux-pc
+    hostname: linux-pc
+    networks:
+      - shibboleth
+    volumes:
+      - linux-pc:/root
+    ports:
+      - 5900:5900
+
+networks:
+  shibboleth:
+
+volumes:
+  shibboleth-wordpress-web:
+    driver: local
+  shibboleth-wordpress-mysql:
+    driver: local
+  linux-pc:
+    driver: local
+  shibboleth-service-provider:
+    driver: local
+  shibboleth-idp:
+    driver: local
